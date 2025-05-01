@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Welcome to FileMaster</title>
+
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        font-family: "Poppins", sans-serif;
+        margin: 0;
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        color: white;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+      }
+      header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1.5rem 3rem;
+      }
+      .logo {
+        font-size: 1.8rem;
+        font-weight: 700;
+      }
+      .nav a {
+        color: white;
+        margin-left: 2rem;
+        text-decoration: none;
+        font-weight: 600;
+        transition: color 0.2s;
+      }
+      .nav a:hover {
+        color: #d1d5db;
+      }
+      .hero {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        padding: 2rem;
+      }
+      .hero h1 {
+        font-size: 3rem;
+        margin-bottom: 1rem;
+        line-height: 1.2;
+      }
+      .hero p {
+        font-size: 1.2rem;
+        margin-bottom: 2rem;
+        max-width: 500px;
+      }
+      .buttons {
+        display: flex;
+        gap: 1.5rem;
+        flex-wrap: wrap;
+      }
+      .btn {
+        background: white;
+        color: #667eea;
+        padding: 0.8rem 2rem;
+        border-radius: 8px;
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 1rem;
+        transition: background 0.2s, color 0.2s;
+      }
+      .btn:hover {
+        background: #d1d5db;
+        color: #5a67d8;
+      }
+      footer {
+        text-align: center;
+        padding: 1rem 0;
+        font-size: 0.9rem;
+        color: #d1d5db;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div class="logo">FileMaster</div>
+      <nav class="nav">
+        <a href="/login">Login</a>
+        <a href="/signup">Sign Up</a>
+      </nav>
+    </header>
+
+    <section class="hero">
+      <h1>Store and Manage Your Files with Ease 🚀</h1>
+      <p>
+        Securely upload, organize, and access your files anytime, anywhere.
+        Start your journey now!
+      </p>
+
+      <div class="buttons">
+        <a href="/signup" class="btn">Get Started</a>
+        <a href="/login" class="btn">Login</a>
+      </div>
+    </section>
+
+    <footer>
+      &copy; <%= new Date().getFullYear() %> FileMaster. All rights reserved.
+    </footer>
+  </body>
+</html>
