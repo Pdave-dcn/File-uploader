@@ -75,18 +75,25 @@
         box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         width: 200px;
         text-align: center;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+        cursor: pointer;
       }
-      .folder-card h3 {
-        font-size: 1rem;
-        margin-bottom: 1rem;
+
+      .folder-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
       }
+
       .folder-card a {
         text-decoration: none;
-        color: #667eea;
-        font-weight: 600;
+        color: inherit;
+        display: block;
       }
-      .folder-card a:hover {
-        text-decoration: underline;
+
+      .folder-icon {
+        font-size: 2rem;
+        margin: 0.5rem 0;
+        color: #667eea;
       }
       .action-buttons {
         margin-top: 2rem;
@@ -123,8 +130,10 @@
         <div class="folder-list">
           <% folders.forEach(folder => { %>
           <div class="folder-card">
-            <h3><%= folder.name %></h3>
-            <a href="/folders/<%= folder.id %>">Manage Files</a>
+            <a href="/folder/<%= folder.id %>">
+              <h3><%= folder.name %></h3>
+              <div class="folder-icon">📁</div>
+            </a>
           </div>
           <% }); %>
         </div>
@@ -138,7 +147,6 @@
 
       <div class="action-buttons">
         <a href="/create-folder">Create New Folder</a>
-        <a href="/upload-file">Upload File</a>
       </div>
     </div>
   </body>

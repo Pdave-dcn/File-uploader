@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Create New Folder</title>
+
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        font-family: "Poppins", sans-serif;
+        background-color: #f4f7fc;
+        margin: 0;
+        padding: 0;
+      }
+      header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background-color: #667eea;
+        color: white;
+        padding: 1rem;
+        text-align: center;
+      }
+      header h1 {
+        margin: 0;
+        font-size: 1.5rem;
+      }
+      .logout-btn {
+        padding: 0.5rem 1rem;
+        background-color: white;
+        color: #667eea;
+        border-radius: 6px;
+        text-decoration: none;
+        font-weight: 600;
+        transition: all 0.2s ease;
+        border: 2px solid white;
+        font-size: 0.9rem;
+      }
+      .logout-btn:hover {
+        background-color: transparent;
+        color: white;
+      }
+      .back-link {
+        color: white;
+        text-decoration: none;
+        display: flex;
+        align-items: center;
+        font-weight: 600;
+      }
+      .back-link:hover {
+        text-decoration: underline;
+      }
+      .back-arrow {
+        margin-right: 0.5rem;
+        font-size: 1.2rem;
+      }
+      .container {
+        width: 90%;
+        max-width: 600px;
+        margin: 2rem auto;
+        padding: 2rem;
+        background: white;
+        border-radius: 8px;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+      }
+      .page-title {
+        color: #333;
+        margin-top: 0;
+        font-size: 1.5rem;
+        margin-bottom: 1.5rem;
+      }
+      .form-group {
+        margin-bottom: 1.5rem;
+      }
+      label {
+        display: block;
+        margin-bottom: 0.5rem;
+        font-weight: 600;
+        color: #555;
+      }
+      input,
+      textarea,
+      select {
+        width: 100%;
+        padding: 0.75rem;
+        border: 1px solid #ddd;
+        border-radius: 6px;
+        font-family: "Poppins", sans-serif;
+        font-size: 1rem;
+        box-sizing: border-box;
+      }
+      input:focus,
+      textarea:focus,
+      select:focus {
+        outline: none;
+        border-color: #667eea;
+        box-shadow: 0 0 0 2px rgba(102, 126, 234, 0.2);
+      }
+      .form-hint {
+        font-size: 0.85rem;
+        color: #777;
+        margin-top: 0.5rem;
+      }
+      .form-actions {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 2rem;
+      }
+      .btn {
+        padding: 0.75rem 1.5rem;
+        border-radius: 6px;
+        font-weight: 600;
+        font-size: 1rem;
+        cursor: pointer;
+        transition: all 0.2s;
+        border: none;
+      }
+      .btn-primary {
+        background-color: #667eea;
+        color: white;
+      }
+      .btn-primary:hover {
+        background-color: #5a67d8;
+      }
+      .btn-secondary {
+        background-color: #f4f7fc;
+        color: #333;
+      }
+      .btn-secondary:hover {
+        background-color: #e5e9f2;
+      }
+      .color-picker-wrapper {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.75rem;
+        margin-top: 0.75rem;
+      }
+      .color-option {
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        cursor: pointer;
+        transition: transform 0.2s;
+        position: relative;
+      }
+      .color-option:hover {
+        transform: scale(1.1);
+      }
+      .color-option.selected::after {
+        content: "✓";
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        color: white;
+        font-weight: bold;
+        text-shadow: 0 0 2px rgba(0, 0, 0, 0.5);
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <a href="/dashboard" class="back-link">
+        <span class="back-arrow">←</span> Back to Dashboard
+      </a>
+      <h1>Create New Folder</h1>
+      <a href="/logout" class="logout-btn">Logout</a>
+    </header>
+
+    <div class="container">
+      <h2 class="page-title">Create a New Folder</h2>
+      <%- include("partials/error.ejs") %>
+      <form action="/create-folder" method="POST">
+        <% if (parentId) { %>
+        <input type="hidden" name="parentId" value="<%= parentId %>" />
+        <% } %>
+
+        <div class="form-group">
+          <label for="folder-name">Folder Name*</label>
+          <input
+            type="text"
+            id="folder-name"
+            name="name"
+            required
+            placeholder="Enter folder name"
+            autofocus
+          />
+          <p class="form-hint">
+            Choose a name that helps you identify the folder's contents
+          </p>
+        </div>
+
+        <!-- <div class="form-group">
+          <label for="folder-color">Folder Color</label>
+          <input
+            type="hidden"
+            id="folder-color-input"
+            name="color"
+            value="#667eea"
+          />
+
+          <div class="color-picker-wrapper">
+            <div
+              class="color-option selected"
+              style="background-color: #667eea"
+              data-color="#667eea"
+            ></div>
+            <div
+              class="color-option"
+              style="background-color: #f56565"
+              data-color="#f56565"
+            ></div>
+            <div
+              class="color-option"
+              style="background-color: #48bb78"
+              data-color="#48bb78"
+            ></div>
+            <div
+              class="color-option"
+              style="background-color: #4299e1"
+              data-color="#4299e1"
+            ></div>
+            <div
+              class="color-option"
+              style="background-color: #9f7aea"
+              data-color="#9f7aea"
+            ></div>
+            <div
+              class="color-option"
+              style="background-color: #ed8936"
+              data-color="#ed8936"
+            ></div>
+            <div
+              class="color-option"
+              style="background-color: #ecc94b"
+              data-color="#ecc94b"
+            ></div>
+          </div>
+        </div> -->
+
+        <div class="form-actions">
+          <a href="/dashboard" class="btn btn-secondary">Cancel</a>
+          <button type="submit" class="btn btn-primary">Create Folder</button>
+        </div>
+      </form>
+    </div>
+
+    <!-- <script>
+      // Simple color picker functionality
+      document.querySelectorAll(".color-option").forEach((option) => {
+        option.addEventListener("click", function () {
+          // Remove selected class from all options
+          document.querySelectorAll(".color-option").forEach((el) => {
+            el.classList.remove("selected");
+          });
+
+          // Add selected class to clicked option
+          this.classList.add("selected");
+
+          // Update hidden input value
+          document.getElementById("folder-color-input").value =
+            this.dataset.color;
+        });
+      });
+    </script> -->
+  </body>
+</html>
