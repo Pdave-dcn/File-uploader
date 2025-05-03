@@ -77,6 +77,21 @@
         border: 1px solid #e2e8f0;
         border-radius: 4px;
         margin-bottom: 0.5rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        text-decoration: none;
+        color: #2d3748;
+        transition: background-color 0.2s ease;
+      }
+      .file-item:hover {
+        background-color: #edf2f7;
+      }
+      .file-icon {
+        font-size: 1.2rem;
+      }
+      .file-name {
+        font-weight: 500;
       }
       .actions {
         margin-top: 2rem;
@@ -152,7 +167,10 @@
       <% if (folder.files.length > 0) { %>
       <div class="file-list">
         <% folder.files.forEach(file => { %>
-        <div class="file-item"><%= file.name %></div>
+        <a href="/file-info/<%= file.id %>" class="file-item">
+          <span class="file-icon">📄</span>
+          <span class="file-name"><%= file.name %></span>
+        </a>
         <% }); %>
       </div>
       <% } else { %>

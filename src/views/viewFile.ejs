@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>File Details</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        font-family: "Poppins", sans-serif;
+        background-color: #f4f7fc;
+        margin: 0;
+        padding: 2rem;
+        color: #333;
+      }
+      .container {
+        background-color: white;
+        max-width: 600px;
+        margin: 0 auto;
+        padding: 2rem;
+        border-radius: 8px;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+      }
+      h1 {
+        margin-top: 0;
+        font-size: 1.5rem;
+        color: #667eea;
+      }
+      .detail {
+        margin: 1rem 0;
+        font-size: 1.1rem;
+      }
+      .label {
+        font-weight: 600;
+        color: #555;
+      }
+      .value {
+        margin-left: 0.5rem;
+      }
+      .download-btn {
+        display: inline-block;
+        margin-top: 1.5rem;
+        padding: 0.75rem 1.5rem;
+        background-color: #667eea;
+        color: white;
+        text-decoration: none;
+        border-radius: 6px;
+        font-weight: 600;
+        transition: background-color 0.2s ease;
+      }
+      .download-btn:hover {
+        background-color: #5a67d8;
+      }
+      .navigation {
+        margin-bottom: 2rem;
+      }
+
+      .back-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        color: #667eea;
+        text-decoration: none;
+        font-weight: 600;
+      }
+
+      .back-btn:hover {
+        color: #5a67d8;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="navigation">
+        <a href="/folder/<%= file.folderId %>" class="back-btn"
+          >&larr; Back to Folder</a
+        >
+      </div>
+
+      <h1>File Details</h1>
+
+      <div class="detail">
+        <span class="label">Name:</span>
+        <span class="value"><%= file.name %></span>
+      </div>
+
+      <div class="detail">
+        <span class="label">Size:</span>
+        <span class="value"><%= (file.size / 1024).toFixed(2) %> KB</span>
+      </div>
+
+      <div class="detail">
+        <span class="label">Uploaded:</span>
+        <span class="value"
+          ><%= new Date(file.createdAt).toLocaleString() %></span
+        >
+      </div>
+
+      <a href="/download/<%= file.id %>" class="download-btn">Download</a>
+    </div>
+  </body>
+</html>

@@ -1,5 +1,7 @@
 import prisma from "../config/db.js";
 import { upload } from "../middlewares/multer.js";
+import path from "path";
+import fs from "fs";
 
 export const uploadFileGet = async (req, res) => {
   const { id } = req.params;
@@ -44,3 +46,51 @@ export const uploadFilePost = [
     }
   },
 ];
+
+export const fileInfoGet = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const file = await prisma.file.findUnique({
+      where: { id: parseInt(id) },
+      include: {
+        folder: true,
+      },
+    });
+
+    if (!file) {
+      return res.status(404).redirect("/dashboard");
+    }
+
+    if (file.userId !== req.user.id) {
+      return res.status(403).redirect("/dashboard");
+    }
+
+    res.render("viewFile", { file });
+  } catch (error) {
+    console.error("Error in fileInfoGet: ", error);
+    res.status(500).redirect("/dashboard");
+  }
+};
+
+export const downloadFile = async (req, res) => {
+  try {
+    const fileId = parseInt(req.params.id);
+    const file = await prisma.file.findUnique({
+      where: { id: fileId },
+    });
+
+    if (!file) {
+      return res.status(404).send("File not found");
+    }
+
+    if (!fs.existsSync(file.path)) {
+      return res.status(404).send("File not found on disk");
+    }
+
+    res.download(file.path, file.name);
+  } catch (error) {
+    console.error("Error downloading file:", error);
+    res.status(500).send("Server error during file download");
+  }
+};
