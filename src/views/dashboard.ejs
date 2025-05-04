@@ -69,6 +69,7 @@
         flex-wrap: wrap;
       }
       .folder-card {
+        position: relative;
         background-color: #f9f9f9;
         padding: 1rem;
         border-radius: 8px;
@@ -94,6 +95,47 @@
         font-size: 2rem;
         margin: 0.5rem 0;
         color: #667eea;
+      }
+      .folder-actions {
+        position: absolute;
+        top: 0.5rem;
+        right: 0.5rem;
+        display: flex;
+        gap: 0.5rem;
+        opacity: 0;
+        transition: opacity 0.2s ease;
+      }
+
+      .folder-card:hover .folder-actions {
+        opacity: 1;
+      }
+
+      .action-btn {
+        background: none;
+        border: none;
+        font-size: 1rem;
+        cursor: pointer;
+        padding: 0.25rem;
+        border-radius: 4px;
+        transition: background-color 0.2s ease;
+      }
+
+      .action-btn:hover {
+        background-color: rgba(0, 0, 0, 0.1);
+      }
+
+      .delete-form {
+        margin: 0;
+        padding: 0;
+        display: inline;
+      }
+
+      .edit-btn {
+        color: #4a5568;
+      }
+
+      .delete-btn {
+        color: #e53e3e;
       }
       .action-buttons {
         margin-top: 2rem;
@@ -130,10 +172,26 @@
         <div class="folder-list">
           <% folders.forEach(folder => { %>
           <div class="folder-card">
-            <a href="/folder/<%= folder.id %>">
+            <a href="/folder/<%= folder.id %>" class="folder-link">
               <h3><%= folder.name %></h3>
               <div class="folder-icon">📁</div>
             </a>
+            <div class="folder-actions">
+              <button
+                class="action-btn edit-btn"
+                onclick="window.location.href='/folder/<%= folder.id %>/update'"
+              >
+                ✏️
+              </button>
+              <form
+                action="/folder/<%= folder.id %>/delete"
+                method="POST"
+                class="delete-form"
+                onsubmit="return confirm('Are you sure you want to delete this folder?')"
+              >
+                <button type="submit" class="action-btn delete-btn">🗑️</button>
+              </form>
+            </div>
           </div>
           <% }); %>
         </div>

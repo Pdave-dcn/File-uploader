@@ -94,3 +94,31 @@ export const downloadFile = async (req, res) => {
     res.status(500).send("Server error during file download");
   }
 };
+
+export const deleteFile = async (req, res) => {
+  try {
+    const fileId = parseInt(req.params.id);
+
+    const file = await prisma.file.findUnique({
+      where: { id: fileId },
+      select: { path: true, folderId: true },
+    });
+
+    if (!file) return res.status(404).redirect("/dashboard");
+
+    try {
+      await fs.unlink(file.path);
+    } catch (error) {
+      console.error("Error deleting physical file: ".error);
+    }
+
+    await prisma.file.delete({
+      where: { id: fileId },
+    });
+
+    res.redirect(`/folder/${file.folderId}`);
+  } catch (error) {
+    console.error("Error deleting file:", error);
+    res.status(500).send("Error deleting file");
+  }
+};

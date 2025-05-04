@@ -34,6 +34,13 @@
         align-items: center;
         gap: 0.5rem;
       }
+      .navigation a {
+        color: white;
+        text-decoration: none;
+      }
+      .navigation a:hover {
+        text-decoration: underline;
+      }
       .container {
         max-width: 900px;
         margin: 2rem auto;
@@ -52,6 +59,7 @@
         margin-bottom: 2rem;
       }
       .folder-card {
+        position: relative;
         padding: 1rem;
         background: #edf2f7;
         border-radius: 6px;
@@ -64,14 +72,49 @@
       .folder-card:hover {
         background-color: #e2e8f0;
       }
+      .folder-card a {
+        text-decoration: none;
+        color: inherit;
+        display: block;
+      }
+      .folder-actions,
+      .file-actions {
+        position: absolute;
+        top: 0.5rem;
+        right: 0.5rem;
+        display: flex;
+        gap: 0.5rem;
+        opacity: 0;
+        transition: opacity 0.2s ease;
+      }
+      .folder-card:hover .folder-actions,
+      .file-item:hover .file-actions {
+        opacity: 1;
+      }
+      .action-btn {
+        background: none;
+        border: none;
+        font-size: 1rem;
+        cursor: pointer;
+        padding: 0.25rem;
+        border-radius: 4px;
+        transition: background-color 0.2s ease;
+      }
+      .action-btn:hover {
+        background-color: rgba(0, 0, 0, 0.1);
+      }
+      .edit-btn {
+        color: #4a5568;
+      }
+      .delete-btn {
+        color: #e53e3e;
+      }
       .folder-icon {
         font-size: 2rem;
         margin-bottom: 0.5rem;
       }
-      .file-list {
-        margin-top: 1rem;
-      }
       .file-item {
+        position: relative;
         padding: 0.75rem;
         background: #f7fafc;
         border: 1px solid #e2e8f0;
@@ -87,11 +130,27 @@
       .file-item:hover {
         background-color: #edf2f7;
       }
+      .file-item a {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        text-decoration: none;
+        color: inherit;
+      }
       .file-icon {
         font-size: 1.2rem;
       }
       .file-name {
         font-weight: 500;
+      }
+      a {
+        text-decoration: none;
+        color: inherit;
+      }
+      .delete-form {
+        margin: 0;
+        padding: 0;
+        display: inline;
       }
       .actions {
         margin-top: 2rem;
@@ -153,10 +212,25 @@
       <% if (folder.children && folder.children.length > 0) { %>
       <div class="folder-grid">
         <% folder.children.forEach(child => { %>
-        <a class="folder-card" href="/folder/<%= child.id %>">
-          <div class="folder-icon">📁</div>
-          <%= child.name %>
-        </a>
+        <div class="folder-card">
+          <a href="/folder/<%= child.id %>">
+            <div class="folder-icon">📁</div>
+            <%= child.name %>
+          </a>
+          <div class="folder-actions">
+            <a href="/folder/<%= child.id %>/update" class="action-btn edit-btn"
+              >✏️</a
+            >
+            <form
+              action="/folder/<%= child.id %>/delete"
+              method="POST"
+              class="delete-form"
+              onsubmit="return confirm('Are you sure you want to delete this folder?')"
+            >
+              <button type="submit" class="action-btn delete-btn">🗑️</button>
+            </form>
+          </div>
+        </div>
         <% }); %>
       </div>
       <% } else { %>
@@ -167,10 +241,22 @@
       <% if (folder.files.length > 0) { %>
       <div class="file-list">
         <% folder.files.forEach(file => { %>
-        <a href="/file-info/<%= file.id %>" class="file-item">
-          <span class="file-icon">📄</span>
-          <span class="file-name"><%= file.name %></span>
-        </a>
+        <div class="file-item">
+          <a href="/file-info/<%= file.id %>">
+            <span class="file-icon">📄</span>
+            <span class="file-name"><%= file.name %></span>
+          </a>
+          <div class="file-actions">
+            <form
+              action="/file/<%= file.id %>/delete"
+              method="POST"
+              class="delete-form"
+              onsubmit="return confirm('Are you sure you want to delete this file?')"
+            >
+              <button type="submit" class="action-btn delete-btn">🗑️</button>
+            </form>
+          </div>
+        </div>
         <% }); %>
       </div>
       <% } else { %>
