@@ -80,7 +80,8 @@
   <body>
     <div class="container">
       <h1>Welcome Back</h1>
-      <%- include("partials/error.ejs") %>
+      <% if (typeof errors !== 'undefined') { %> <%-
+      include("partials/error.ejs", { errors: errors }) %> <% } %>
       <form action="/login" method="POST">
         <input type="email" name="email" placeholder="Email Address" required />
         <input

@@ -1,4 +1,4 @@
-<% if (locals.error) { %>
+<% if (typeof errors !== 'undefined' && errors.length > 0) { %>
 <div
   style="
     background-color: #f8d7da;
@@ -8,7 +8,6 @@
     border: 1px solid #f5c6cb;
     margin-bottom: 1.5rem;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    font-family: 'Poppins', sans-serif;
   "
 >
   <ul style="list-style-type: none; padding: 0; margin: 0">

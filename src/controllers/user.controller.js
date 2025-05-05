@@ -1,6 +1,7 @@
 import { body, validationResult } from "express-validator";
 import bcrypt from "bcryptjs";
 import prisma from "../config/db.js";
+import passport from "passport";
 
 const validateUser = [
   body("name")
@@ -55,3 +56,39 @@ export const signupPost = [
     }
   },
 ];
+
+export const loginPost = (req, res, next) => {
+  passport.authenticate("local", (err, user, info) => {
+    if (err) {
+      console.error("Authentication error:", err);
+      return res.render("login", {
+        errors: [{ msg: "Something went wrong. Please try again." }],
+      });
+    }
+
+    if (!user) {
+      return res.render("login", {
+        errors: [{ msg: info?.message || "Invalid email or password" }],
+      });
+    }
+
+    req.logIn(user, (err) => {
+      if (err) {
+        console.error("Login error:", err);
+        return res.render("login", {
+          errors: [{ msg: "Login failed. Please try again." }],
+        });
+      }
+
+      req.session.save((err) => {
+        if (err) {
+          console.error("Session save error:", err);
+          return res.render("login", {
+            errors: [{ msg: "Session error. Please try again." }],
+          });
+        }
+        return res.redirect("/dashboard");
+      });
+    });
+  })(req, res, next);
+};

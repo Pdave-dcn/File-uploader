@@ -24,16 +24,23 @@ const prisma = new PrismaClient();
 
 app.use(
   session({
-    cookie: {
-      maxAge: 2 * 24 * 60 * 60 * 1000,
-    },
+    name: "sid",
     secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: false,
+    rolling: true,
+    cookie: {
+      maxAge: 2 * 24 * 60 * 60 * 1000,
+      httpOnly: true,
+      secure: false,
+      sameSite: "lax",
+      path: "/",
+    },
     store: new PrismaSessionStore(prisma, {
-      checkPeriod: 2 * 60 * 1000, //ms
+      checkPeriod: 2 * 60 * 1000,
       dbRecordIdIsSessionId: true,
-      dbRecordIdFunction: undefined,
+      ttl: 2 * 24 * 60 * 60 * 1000,
+      disableTouch: false,
     }),
   })
 );
@@ -42,6 +49,12 @@ app.use(passport.initialize());
 app.use(passport.session());
 initializePassport(passport);
 
+// app.use((req, res, next) => {
+//   console.log("Cookies received:", req.headers.cookie);
+//   console.log("Session ID:", req.sessionID);
+//   console.log("Is Authenticated:", req.isAuthenticated());
+//   next();
+// });
 app.use("/", route);
 
 export default app;

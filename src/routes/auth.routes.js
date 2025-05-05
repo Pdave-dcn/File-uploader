@@ -1,6 +1,5 @@
 import express from "express";
-import { signupPost } from "../controllers/user.controller.js";
-import passport from "passport";
+import { signupPost, loginPost } from "../controllers/user.controller.js";
 
 const router = express.Router();
 
@@ -14,13 +13,7 @@ router.get("/login", (req, res) => {
   res.render("login");
 });
 
-router.post(
-  "/login",
-  passport.authenticate("local", {
-    successRedirect: "/dashboard",
-    failureRedirect: "/login",
-  })
-);
+router.post("/login", loginPost);
 
 router.get("/logout", (req, res, next) => {
   req.logout((err) => {
